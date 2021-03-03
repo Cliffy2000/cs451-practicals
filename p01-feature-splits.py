@@ -48,7 +48,14 @@ for d in data:
 
 def find_candidate_splits(data: List[DataPoint]) -> List[float]:
     midpoints = []
-    TODO("loop through data and generate candidate split locations")
+    
+    data = sorted(data, key=lambda obj: obj.temperature)
+    
+    for i in range(1, len(data)):
+        left = data[i-1].temperature
+        right = data[i].temperature
+        midpoints.append((left+right)/2)
+    
     return midpoints
 
 
@@ -69,7 +76,11 @@ def impurity_of_split(points: List[DataPoint], split: float) -> float:
     smaller = []
     bigger = []
 
-    TODO("split points into smaller and bigger lists based on split!")
+    for p in points:
+        if p.temperature < split:
+            smaller.append(p)
+        else:
+            bigger.append(p)
 
     return gini_impurity(smaller) + gini_impurity(bigger)
 
