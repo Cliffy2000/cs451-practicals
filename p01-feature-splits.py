@@ -1,5 +1,6 @@
 # Decision Trees: Feature Splits
 
+#%%
 # Python typing introduced in 3.5: https://docs.python.org/3/library/typing.html
 from typing import List
 
@@ -9,14 +10,21 @@ from dataclasses import dataclass
 # My python file (very limited for now, but we will build up shared functions)
 from shared import TODO
 
-
+#%%
 # Let's define a really simple class with two fields:
 @dataclass
 class DataPoint:
     temperature: float
     frozen: bool
 
+    def secret_answer(self) -> bool:
+        return self.temperature <= 32
 
+    def clone(self) -> "DataPoint":
+        return DataPoint(self.temperature, self.frozen)
+
+
+# Fahrenheit, sorry.
 data = [
     # vermont temperatures; frozen=True
     DataPoint(0, True),
@@ -25,7 +33,9 @@ data = [
     DataPoint(11, True),
     DataPoint(6, True),
     DataPoint(28, True),
+    DataPoint(31, True),
     # warm temperatures; frozen=False
+    DataPoint(33, False),
     DataPoint(45, False),
     DataPoint(76, False),
     DataPoint(60, False),
@@ -55,7 +65,7 @@ def find_candidate_splits(data: List[DataPoint]) -> List[float]:
         left = data[i-1].temperature
         right = data[i].temperature
         midpoints.append((left+right)/2)
-    
+
     return midpoints
 
 
@@ -90,8 +100,7 @@ if __name__ == "__main__":
     print("Impurity of first-six (all True): ", gini_impurity(data[:6]))
     print("")
     for split in find_candidate_splits(data):
-        print(
-            "splitting at {} gives us impurity {}".format(
-                split, impurity_of_split(data, split)
-            )
-        )
+        score = impurity_of_split(data, split)
+        print("splitting at {} gives us impurity {}".format(split, score))
+        if score == 0.0:
+            break
