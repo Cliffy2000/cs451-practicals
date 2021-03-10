@@ -18,11 +18,14 @@ def __create_data_directory():
 
 
 def __download_file(url: str, path: str):
-    if os.path.exists(path):
+    # empty data files were mis-downloaded...
+    if os.path.exists(path) and os.path.getsize(path) > 0:
         # don't download multiple times.
         return
-    with open(path, "w") as out:
-        with urllib.request.urlopen(url) as f:
+    # try connecting before creating output file...
+    with urllib.request.urlopen(url) as f:
+        # create output file and download the rest.
+        with open(path, "w") as out:
             out.write(f.read().decode("utf-8"))
 
 
@@ -31,14 +34,23 @@ def dataset_local_path(name: str) -> str:
     destination = os.path.join("data", name)
     if name == "forest-fires.csv":
         __download_file(
-            "https://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/forestfires.csv",
+            "http://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/forestfires.csv",
             destination,
         )
     elif name == "poetry_id.jsonl":
         __download_file(
-            "https://ciir.cs.umass.edu/downloads/poetry/id_datasets.jsonl", destination
+            "http://ciir.cs.umass.edu/downloads/poetry/id_datasets.jsonl", destination
         )
     else:
         raise ValueError("No such dataset... {}; should you git pull?".format(name))
     assert os.path.exists(destination)
     return destination
+
+
+def test_download():
+    import json
+
+    lpath = dataset_local_path("poetry_id.jsonl")
+    with open(lpath) as fp:
+        first = json.loads(next(fp))
+        assert first["book"] == "aceptadaoficialmente00gubirich"

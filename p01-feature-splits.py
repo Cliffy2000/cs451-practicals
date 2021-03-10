@@ -86,11 +86,7 @@ def impurity_of_split(points: List[DataPoint], split: float) -> float:
     smaller = []
     bigger = []
 
-    for p in points:
-        if p.temperature < split:
-            smaller.append(p)
-        else:
-            bigger.append(p)
+    TODO("split the points based on the candidate split value")
 
     return gini_impurity(smaller) + gini_impurity(bigger)
 
