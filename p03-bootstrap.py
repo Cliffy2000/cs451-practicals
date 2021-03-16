@@ -118,11 +118,12 @@ plt.show()
 # if plt.show is not working, try opening the result of plt.savefig instead!
 # plt.savefig("dtree-variance.png") # This doesn't work well on repl.it.
 
-TODO("1. understand/compare the bounds generated between the two methods.")
-TODO("2. Do one of the two following experiments.")
-TODO(
-    "2A. Evaluation++: what happens to the variance if we do K bootstrap samples for each of M models?"
-)
-TODO(
-    "2B. Return to experimenting on the decision tree: modify the plot to show ~10 max_depths of the decision tree."
-)
+"""
+1. The bounds created by the seed based approach represents the range of accuracy scores of the 
+    entire models. While the bounds created by the booystrap approach shows the distribution of the
+    data within a model and demonstrates the range of accuracy scores of subsets of the model.
+    
+2. a) Since the variance in the seed based approach is rather small, we cn infer that the diffrence 
+    between the data of the models are not large, which suggests that the overall variance is close 
+    to that of one model with K samples
+"""
