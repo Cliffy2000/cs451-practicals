@@ -140,7 +140,7 @@ for i in range(1000):
 
 print(["{:1.3f}".format(x[0]) for x in best_model.weights.tolist()])
 
-graphs["Best-of-Random"] = bootstrap_r2(best_model, X_vali, y_vali)
+# graphs["Best-of-Random"] = bootstrap_r2(best_model, X_vali, y_vali)
 
 # SGD uses derivatives to 'aim' it's search... faster than CA which explores every direction!
 for i in range(20):
